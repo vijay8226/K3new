@@ -19,6 +19,7 @@ export default function ContactSection() {
             <h3>Phone Support</h3>
             <div className="contact-phone-list">
               <a href="tel:+918608114055" className="contact-val">+91 8608114055</a>
+              <a href="tel:9688804848" className="contact-val">+91 9688804848</a>
               <a href="tel:+916374055143" className="contact-val">+91 6374055143</a>
             </div>
           </div>

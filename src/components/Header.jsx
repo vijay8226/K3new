@@ -75,6 +75,9 @@ export default function Header({ onOpenBooking }) {
             <a href="tel:+918608114055" className="mobile-call-btn">
               <Phone size={16} /> Call +91 8608114055
             </a>
+            <a href="tel:+919688804848" className="mobile-call-btn">
+              <Phone size={16} /> Call +91 9688804848
+            </a>
             <a href="tel:+916374055143" className="mobile-call-btn">
               <Phone size={16} /> Call +91 6374055143
             </a>

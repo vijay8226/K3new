@@ -22,7 +22,7 @@ export default function BranchInfo() {
             <div className="branch-details">
               <h3 className="branch-title">Paramakudi Branch</h3>
               <p className="branch-address">Channaikadai Street, Paramakudi – 623707, Tamil Nadu</p>
-              
+
               <div className="branch-meta">
                 <div className="meta-item">
                   <Clock size={16} color="#64748B" />
@@ -32,6 +32,8 @@ export default function BranchInfo() {
                   <Phone size={16} color="#64748B" />
                   <a href="tel:+918608114055" className="phone-link">+91 8608114055</a>
                   <span className="phone-sep">/</span>
+                  <a href="tel:+919688804848" className="phone-link">+91 9688804848</a>
+
                   <a href="tel:+916374055143" className="phone-link">+91 6374055143</a>
                 </div>
               </div>

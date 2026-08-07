@@ -149,13 +149,17 @@ export default function ServicesCatalog({ onSelectService }) {
                   ))}
                 </ul>
 
-                <button
-                  onClick={() => onSelectService(service)}
+                <a
+                  href={`https://wa.me/918608114055?text=${encodeURIComponent(
+                    `Hello K3 Multi Solution, I need ${service.title} service. Please confirm technician availability!`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-whatsapp service-book-btn w-full"
                 >
                   <MessageSquare size={16} />
                   <span>Book via WhatsApp</span>
-                </button>
+                </a>
               </div>
             </article>
           ))}
