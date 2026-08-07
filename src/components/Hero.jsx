@@ -3,10 +3,10 @@ import { MessageSquare } from 'lucide-react';
 
 export default function Hero({ onOpenBooking }) {
   const slides = [
-    'images/1.webp',
-    'images/3.webp',
-    'images/company.webp',
-    'images/ac.webp',
+    '/images/1.webp',
+    '/images/3.webp',
+    '/images/company.webp',
+    '/images/ac.webp',
   ];
 
   const [activeSlide, setActiveSlide] = useState(0);

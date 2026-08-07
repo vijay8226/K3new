@@ -48,7 +48,7 @@ export default function BranchInfo() {
 
             <div className="branch-img-box">
               <img
-                src="images/company.webp"
+                src="/images/company.webp"
                 alt="K3 Paramakudi Branch"
                 className="branch-img"
                 loading="lazy"

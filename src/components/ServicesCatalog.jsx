@@ -28,7 +28,7 @@ export default function ServicesCatalog({ onSelectService }) {
       category: 'AC',
       title: 'AC Installation & Repair',
       badge: 'Popular',
-      image: 'images/ac1.webp',
+      image: '/images/ac1.webp',
       description: 'Installation, servicing, gas refill, and repair for all major AC types.',
       features: [
         'Full System Cleaning & Servicing',
@@ -42,7 +42,7 @@ export default function ServicesCatalog({ onSelectService }) {
       category: 'CCTV',
       title: 'Camera Installation',
       badge: 'High Security',
-      image: 'images/camara.webp',
+      image: '/images/camara.webp',
       description: 'CCTV installation and setup for homes, shops, offices, and security monitoring.',
       features: [
         'HD & IP Camera Installation',
@@ -56,7 +56,7 @@ export default function ServicesCatalog({ onSelectService }) {
       category: 'Electrical',
       title: 'Electrical Work',
       badge: 'Certified',
-      image: 'images/1.webp',
+      image: '/images/1.webp',
       description: 'Fan installation, light fitting, home electrical contracts & wiring.',
       features: [
         'Fan Installation & Repair',
@@ -70,7 +70,7 @@ export default function ServicesCatalog({ onSelectService }) {
       category: 'UPS',
       title: 'UPS Battery Sales & Service',
       badge: 'Power Backup',
-      image: 'images/bt.webp',
+      image: '/images/bt.webp',
       description: 'UPS battery supply, replacement, installation, and support for homes and businesses.',
       features: [
         'New Inverter & Battery Sales',
@@ -84,7 +84,7 @@ export default function ServicesCatalog({ onSelectService }) {
       category: 'Plumbing',
       title: 'Plumbing Work',
       badge: 'Plumbing Specialist',
-      image: 'images/p1.webp',
+      image: '/images/p1.webp',
       description: 'Water tank installation, new water motor pump installation, and pipe fittings.',
       features: [
         'Water Tank Installation',
