@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, Calendar, Clock, User, Phone, MapPin, CheckCircle, Wrench } from 'lucide-react';
+import { X, MessageSquare, Clock, User, Phone, MapPin, CheckCircle, Wrench, Navigation, Loader2 } from 'lucide-react';
 
 export default function BookingModal({ isOpen, onClose, selectedService }) {
   const [serviceType, setServiceType] = useState('AC Installation & Repair');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [preferredDate, setPreferredDate] = useState('');
   const [preferredTime, setPreferredTime] = useState('Morning (9 AM - 12 PM)');
   const [address, setAddress] = useState('Paramakudi');
   const [notes, setNotes] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationStatus, setLocationStatus] = useState('');
 
   const serviceOptions = [
     'AC Installation & Repair',
@@ -27,6 +28,33 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
 
   if (!isOpen) return null;
 
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    setIsLocating(true);
+    setLocationStatus('Detecting location...');
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+        setAddress(`Paramakudi (GPS: ${mapsLink})`);
+        setIsLocating(false);
+        setLocationStatus('Location detected & added!');
+        setTimeout(() => setLocationStatus(''), 4000);
+      },
+      (error) => {
+        setIsLocating(false);
+        setLocationStatus('Unable to detect location. Please type manually.');
+        setTimeout(() => setLocationStatus(''), 4000);
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -34,9 +62,8 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
     text += `*Service Request:* ${serviceType}\n`;
     if (customerName) text += `*Name:* ${customerName}\n`;
     if (customerPhone) text += `*Phone:* ${customerPhone}\n`;
-    if (preferredDate) text += `*Preferred Date:* ${preferredDate}\n`;
     text += `*Preferred Time:* ${preferredTime}\n`;
-    text += `*Address:* ${address}\n`;
+    text += `*Address / Location:* ${address}\n`;
     if (notes) text += `*Details/Issue:* ${notes}\n`;
     text += `\nPlease confirm technician availability!`;
 
@@ -49,11 +76,11 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-container glass-panel">
+      <div className="modal-container">
         <div className="modal-header">
           <div className="modal-title-group">
             <div className="modal-icon">
-              <MessageSquare size={20} color="#25D366" />
+              <MessageSquare size={20} color="#16A34A" />
             </div>
             <div>
               <h3 className="modal-title">Instant WhatsApp Booking</h3>
@@ -61,7 +88,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
             </div>
           </div>
           <button onClick={onClose} className="modal-close-btn" aria-label="Close modal">
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
@@ -69,7 +96,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           {/* Service Selection */}
           <div className="form-group">
             <label className="form-label">
-              <Wrench size={15} /> Service Required
+              <Wrench size={15} color="#2563EB" /> Service Required
             </label>
             <select
               value={serviceType}
@@ -88,7 +115,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">
-                <User size={15} /> Your Name
+                <User size={15} color="#2563EB" /> Your Name
               </label>
               <input
                 type="text"
@@ -102,7 +129,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
 
             <div className="form-group">
               <label className="form-label">
-                <Phone size={15} /> Phone Number
+                <Phone size={15} color="#2563EB" /> Phone Number
               </label>
               <input
                 type="tel"
@@ -115,40 +142,38 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">
-                <Calendar size={15} /> Preferred Date
-              </label>
-              <input
-                type="date"
-                value={preferredDate}
-                onChange={(e) => setPreferredDate(e.target.value)}
-                className="form-control"
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                <Clock size={15} /> Preferred Time
-              </label>
-              <select
-                value={preferredTime}
-                onChange={(e) => setPreferredTime(e.target.value)}
-                className="form-control"
-              >
-                <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
-                <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
-                <option value="Evening (4 PM - 8 PM)">Evening (4 PM - 8 PM)</option>
-                <option value="Emergency (As Soon As Possible)">Emergency (ASAP)</option>
-              </select>
-            </div>
+          <div className="form-group">
+            <label className="form-label">
+              <Clock size={15} color="#2563EB" /> Preferred Time
+            </label>
+            <select
+              value={preferredTime}
+              onChange={(e) => setPreferredTime(e.target.value)}
+              className="form-control"
+            >
+              <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
+              <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
+              <option value="Evening (4 PM - 8 PM)">Evening (4 PM - 8 PM)</option>
+              <option value="Emergency (As Soon As Possible)">Emergency (ASAP)</option>
+            </select>
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              <MapPin size={15} /> Location / Address in Paramakudi
-            </label>
+            <div className="label-with-action">
+              <label className="form-label">
+                <MapPin size={15} color="#2563EB" /> Location / Address in Paramakudi
+              </label>
+              <button
+                type="button"
+                onClick={handleGetLocation}
+                className="btn-location"
+                disabled={isLocating}
+                title="Get current GPS location"
+              >
+                {isLocating ? <Loader2 size={13} className="spin-icon" /> : <Navigation size={13} />}
+                <span>{isLocating ? 'Detecting...' : 'Use GPS Location'}</span>
+              </button>
+            </div>
             <input
               type="text"
               placeholder="e.g. Gandhi Nagar, Paramakudi"
@@ -157,6 +182,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
               className="form-control"
               required
             />
+            {locationStatus && <span className="location-status-text">{locationStatus}</span>}
           </div>
 
           <div className="form-group">
@@ -176,7 +202,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
               <span>Send & Connect on WhatsApp</span>
             </button>
             <p className="modal-privacy-note">
-              <CheckCircle size={13} color="#10B981" /> No login needed. Instant response from technician.
+              <CheckCircle size={14} color="#10B981" /> No login needed. Instant response from technician.
             </p>
           </div>
         </form>
@@ -187,8 +213,8 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           position: fixed;
           inset: 0;
           z-index: 999;
-          background: rgba(0, 0, 0, 0.75);
-          backdrop-filter: blur(8px);
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(6px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -199,11 +225,12 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
         .modal-container {
           width: 100%;
           max-width: 540px;
-          border-radius: var(--radius-lg);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+          border-radius: 24px;
+          border: 1px solid #E2E8F0;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
           overflow: hidden;
-          background: #0F172A;
+          background: #FFFFFF;
+          color: #0F172A;
         }
 
         .modal-header {
@@ -211,8 +238,8 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           align-items: center;
           justify-content: space-between;
           padding: 1.25rem 1.5rem;
-          border-bottom: 1px solid var(--surface-border);
-          background: rgba(18, 24, 39, 0.8);
+          border-bottom: 1px solid #F1F5F9;
+          background: #F8FAFC;
         }
 
         .modal-title-group {
@@ -224,8 +251,8 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
         .modal-icon {
           width: 40px;
           height: 40px;
-          border-radius: 10px;
-          background: rgba(37, 211, 102, 0.15);
+          border-radius: 12px;
+          background: #DCFCE7;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -234,26 +261,31 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
         .modal-title {
           font-size: 1.15rem;
           line-height: 1.2;
+          color: #0F172A;
+          font-weight: 700;
         }
 
         .modal-subtitle {
           font-size: 0.8rem;
-          color: var(--text-muted);
+          color: #64748B;
         }
 
         .modal-close-btn {
-          background: transparent;
-          border: none;
-          color: var(--text-muted);
+          background: #F1F5F9;
+          border: 1px solid #E2E8F0;
+          color: #64748B;
           cursor: pointer;
           padding: 0.4rem;
-          border-radius: 6px;
-          transition: background 0.2s ease;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
         }
 
         .modal-close-btn:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: #FFF;
+          background: #E2E8F0;
+          color: #0F172A;
         }
 
         .modal-body {
@@ -275,36 +307,88 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           gap: 0.4rem;
         }
 
+        .label-with-action {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .btn-location {
+          background: #EFF6FF;
+          border: 1px solid #BFDBFE;
+          color: #2563EB;
+          font-size: 0.775rem;
+          font-weight: 600;
+          padding: 0.25rem 0.65rem;
+          border-radius: 9999px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          transition: all 0.2s ease;
+        }
+
+        .btn-location:hover:not(:disabled) {
+          background: #2563EB;
+          color: #FFFFFF;
+          border-color: #2563EB;
+        }
+
+        .btn-location:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        .spin-icon {
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .location-status-text {
+          font-size: 0.775rem;
+          color: #2563EB;
+          font-weight: 500;
+          margin-top: 0.2rem;
+        }
+
         .form-label {
           display: flex;
           align-items: center;
           gap: 0.4rem;
-          font-size: 0.85rem;
+          font-size: 0.875rem;
           font-weight: 600;
-          color: var(--text-sub);
+          color: #1E293B;
         }
 
         .form-control {
           width: 100%;
-          padding: 0.65rem 0.9rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid var(--surface-border);
-          border-radius: var(--radius-sm);
-          color: #FFF;
+          padding: 0.7rem 0.95rem;
+          background: #FFFFFF;
+          border: 1px solid #CBD5E1;
+          border-radius: 12px;
+          color: #0F172A;
           font-family: var(--font-body);
-          font-size: 0.9rem;
+          font-size: 0.925rem;
           outline: none;
-          transition: border-color 0.2s ease;
+          transition: all 0.2s ease;
         }
 
         .form-control:focus {
-          border-color: #38BDF8;
-          background: rgba(255, 255, 255, 0.08);
+          border-color: #2563EB;
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-control::placeholder {
+          color: #94A3B8;
         }
 
         .form-control option {
-          background: #0F172A;
-          color: #FFF;
+          background: #FFFFFF;
+          color: #0F172A;
         }
 
         .btn-lg {
@@ -317,8 +401,8 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           align-items: center;
           justify-content: center;
           gap: 0.4rem;
-          font-size: 0.775rem;
-          color: var(--text-muted);
+          font-size: 0.8rem;
+          color: #64748B;
           margin-top: 0.75rem;
           text-align: center;
         }
