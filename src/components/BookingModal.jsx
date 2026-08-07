@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, Clock, User, Phone, MapPin, CheckCircle, Wrench, Navigation, Loader2 } from 'lucide-react';
+import { X, MessageSquare, Clock, User, Phone, MapPin, CheckCircle, Wrench, Navigation, Loader2, Compass } from 'lucide-react';
 
 export default function BookingModal({ isOpen, onClose, selectedService }) {
   const [serviceType, setServiceType] = useState('AC Installation & Repair');
@@ -7,6 +7,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
   const [customerPhone, setCustomerPhone] = useState('');
   const [preferredTime, setPreferredTime] = useState('Morning (9 AM - 12 PM)');
   const [address, setAddress] = useState('Paramakudi');
+  const [landmark, setLandmark] = useState('');
   const [notes, setNotes] = useState('');
   const [isLocating, setIsLocating] = useState(false);
   const [locationStatus, setLocationStatus] = useState('');
@@ -64,11 +65,12 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
     if (customerPhone) text += `*Phone:* ${customerPhone}\n`;
     text += `*Preferred Time:* ${preferredTime}\n`;
     text += `*Address / Location:* ${address}\n`;
+    if (landmark) text += `*Landmark:* ${landmark}\n`;
     if (notes) text += `*Details/Issue:* ${notes}\n`;
     text += `\nPlease confirm technician availability!`;
 
     const encodedText = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/918608114055?text=${encodedText}`;
+    const whatsappUrl = `https://wa.me/916374055143?text=${encodedText}`;
 
     window.open(whatsappUrl, '_blank');
     onClose();
@@ -183,6 +185,19 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
               required
             />
             {locationStatus && <span className="location-status-text">{locationStatus}</span>}
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">
+              <Compass size={15} color="#2563EB" /> Landmark / Nearby Place (Optional)
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. Near Bus Stand, Opposite SBI Bank, Near Temple..."
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+              className="form-control"
+            />
           </div>
 
           <div className="form-group">

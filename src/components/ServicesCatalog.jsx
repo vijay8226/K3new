@@ -150,7 +150,7 @@ export default function ServicesCatalog({ onSelectService }) {
                 </ul>
 
                 <a
-                  href={`https://wa.me/918608114055?text=${encodeURIComponent(
+                  href={`https://wa.me/916374055143?text=${encodeURIComponent(
                     `Hello K3 Multi Solution, I need ${service.title} service. Please confirm technician availability!`
                   )}`}
                   target="_blank"

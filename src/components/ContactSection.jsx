@@ -33,7 +33,7 @@ export default function ContactSection() {
           </a>
 
           <a
-            href="https://wa.me/918608114055?text=Hello%20K3%20Multi%20Solution%2C%20I%20want%20to%20book%20a%20service."
+            href="https://wa.me/916374055143?text=Hello%20K3%20Multi%20Solution%2C%20I%20want%20to%20book%20a%20service."
             target="_blank"
             rel="noopener noreferrer"
             className="contact-card"
