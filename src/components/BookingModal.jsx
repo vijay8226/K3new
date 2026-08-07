@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, Clock, User, Phone, MapPin, CheckCircle, Wrench, Navigation, Loader2, Compass } from 'lucide-react';
+import { X, MessageSquare, Clock, User, Phone, MapPin, CheckCircle, Wrench, Navigation, Loader2, Compass, Layers } from 'lucide-react';
 
 export default function BookingModal({ isOpen, onClose, selectedService }) {
   const [serviceType, setServiceType] = useState('AC Installation & Repair');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [preferredTime, setPreferredTime] = useState('Morning (9 AM - 12 PM)');
+  const [floor, setFloor] = useState('Ground Floor');
   const [address, setAddress] = useState('Paramakudi');
   const [landmark, setLandmark] = useState('');
   const [notes, setNotes] = useState('');
@@ -19,6 +20,16 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
     'UPS Battery Sales & Service',
     'Plumbing Work (Tank, Pump, Fittings)',
     'Other Technical Service',
+  ];
+
+  const floorOptions = [
+    'Ground Floor',
+    '1st Floor',
+    '2nd Floor',
+    '3rd Floor',
+    '4th Floor & Above',
+    'Independent House / Villa',
+    'Commercial Shop / Office',
   ];
 
   useEffect(() => {
@@ -64,6 +75,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
     if (customerName) text += `*Name:* ${customerName}\n`;
     if (customerPhone) text += `*Phone:* ${customerPhone}\n`;
     text += `*Preferred Time:* ${preferredTime}\n`;
+    text += `*Floor / Level:* ${floor}\n`;
     text += `*Address / Location:* ${address}\n`;
     if (landmark) text += `*Landmark:* ${landmark}\n`;
     if (notes) text += `*Details/Issue:* ${notes}\n`;
@@ -144,20 +156,39 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
-              <Clock size={15} color="#2563EB" /> Preferred Time
-            </label>
-            <select
-              value={preferredTime}
-              onChange={(e) => setPreferredTime(e.target.value)}
-              className="form-control"
-            >
-              <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
-              <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
-              <option value="Evening (4 PM - 8 PM)">Evening (4 PM - 8 PM)</option>
-              <option value="Emergency (As Soon As Possible)">Emergency (ASAP)</option>
-            </select>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">
+                <Clock size={15} color="#2563EB" /> Preferred Time
+              </label>
+              <select
+                value={preferredTime}
+                onChange={(e) => setPreferredTime(e.target.value)}
+                className="form-control"
+              >
+                <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
+                <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
+                <option value="Evening (4 PM - 8 PM)">Evening (4 PM - 8 PM)</option>
+                <option value="Emergency (As Soon As Possible)">Emergency (ASAP)</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                <Layers size={15} color="#2563EB" /> Floor / Building Level
+              </label>
+              <select
+                value={floor}
+                onChange={(e) => setFloor(e.target.value)}
+                className="form-control"
+              >
+                {floorOptions.map((opt, i) => (
+                  <option key={i} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="form-group">
