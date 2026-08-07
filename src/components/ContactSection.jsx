@@ -12,13 +12,16 @@ export default function ContactSection() {
         </div>
 
         <div className="contact-grid">
-          <a href="tel:+918608114055" className="contact-card">
+          <div className="contact-card">
             <div className="contact-icon">
               <Phone size={24} color="#2563EB" />
             </div>
-            <h3>Phone</h3>
-            <span className="contact-val">+91 8608114055</span>
-          </a>
+            <h3>Phone Support</h3>
+            <div className="contact-phone-list">
+              <a href="tel:+918608114055" className="contact-val">+91 8608114055</a>
+              <a href="tel:+916374055143" className="contact-val">+91 6374055143</a>
+            </div>
+          </div>
 
           <a href="mailto:nmuthukumar5@gmail.com" className="contact-card">
             <div className="contact-icon">
@@ -107,6 +110,13 @@ export default function ContactSection() {
           color: #2563EB;
           font-weight: 600;
           word-break: break-all;
+          text-decoration: none;
+        }
+
+        .contact-phone-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
         }
 
         @media (max-width: 640px) {

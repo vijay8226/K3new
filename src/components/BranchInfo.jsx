@@ -31,6 +31,8 @@ export default function BranchInfo() {
                 <div className="meta-item">
                   <Phone size={16} color="#64748B" />
                   <a href="tel:+918608114055" className="phone-link">+91 8608114055</a>
+                  <span className="phone-sep">/</span>
+                  <a href="tel:+916374055143" className="phone-link">+91 6374055143</a>
                 </div>
               </div>
 
@@ -122,6 +124,12 @@ export default function BranchInfo() {
           color: #2563EB;
           font-weight: 700;
           text-decoration: none;
+        }
+
+        .phone-sep {
+          color: #94A3B8;
+          font-weight: 600;
+          margin: 0 0.2rem;
         }
 
         .branch-dir-btn {
