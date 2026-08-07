@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -16,6 +16,13 @@ export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [heroSearchQuery, setHeroSearchQuery] = useState('');
 
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleOpenBooking = (service = null) => {
     setSelectedService(service);
     setIsBookingOpen(true);
@@ -32,6 +39,10 @@ export default function App() {
 
   return (
     <div className="app-root">
+      <div className="bg-glow bg-glow-1"></div>
+      <div className="bg-glow bg-glow-2"></div>
+      <div className="bg-glow bg-glow-3"></div>
+
       <Header onOpenBooking={() => handleOpenBooking()} />
 
       <main>

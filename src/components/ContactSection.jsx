@@ -57,7 +57,9 @@ export default function ContactSection() {
 
       <style>{`
         .contact-section {
-          background-color: #FFFFFF;
+          background: transparent;
+          position: relative;
+          z-index: 1;
         }
 
         .contact-grid {
@@ -69,14 +71,16 @@ export default function ContactSection() {
         }
 
         .contact-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: 20px;
           padding: 2rem 1.5rem;
           text-align: center;
           text-decoration: none;
           color: inherit;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+          box-shadow: 0 8px 25px -5px rgba(15, 23, 42, 0.05), 0 4px 10px rgba(0,0,0,0.02);
           transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
           display: flex;
           flex-direction: column;

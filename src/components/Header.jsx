@@ -101,15 +101,18 @@ export default function Header({ onOpenBooking }) {
           left: 0;
           right: 0;
           z-index: 1000;
-          background: #FFFFFF;
-          border-bottom: 1px solid #E5E7EB;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(226, 232, 240, 0.8);
           transition: all 0.3s ease;
           padding: 0.85rem 0;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
         }
 
         .site-header.is-scrolled {
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          background: rgba(255, 255, 255, 0.92);
+          box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.08);
         }
 
         .header-inner {

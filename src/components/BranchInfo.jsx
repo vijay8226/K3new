@@ -64,7 +64,9 @@ export default function BranchInfo() {
 
       <style>{`
         .branch-section {
-          background-color: #F8FAFC;
+          background: transparent;
+          position: relative;
+          z-index: 1;
         }
 
         .branch-card-container {
@@ -73,15 +75,17 @@ export default function BranchInfo() {
         }
 
         .branch-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: 24px;
           padding: 2.5rem;
           display: grid;
           grid-template-columns: auto 1fr 1fr;
           gap: 2rem;
           align-items: center;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 15px 35px -10px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .branch-icon-box {

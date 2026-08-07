@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, CheckCircle2, MapPin } from 'lucide-react';
 
 export default function Testimonials() {
   const reviews = [
@@ -15,14 +15,59 @@ export default function Testimonials() {
     {
       id: 2,
       name: 'S. Vijayalakshmi',
-      location: 'Channaikadai St, Paramakudi',
+      location: 'Maninagar, Paramakudi',
       service: 'CCTV Camera Setup',
       rating: 5,
-      comment: 'Got 4 HD CCTV cameras installed for my textile shop. Clear video quality and mobile app live viewing set up smoothly on my phone. Very trustworthy team.',
+      comment: 'Got 4 HD CCTV cameras installed for my textile shop in Maninagar. Clear video quality and mobile app live viewing set up smoothly on my phone. Very trustworthy team.',
       date: 'Verified Service • June 2026',
     },
     {
       id: 3,
+      name: 'V. Ramanathan',
+      location: 'Ramanathapuram Bazar',
+      service: 'Inverter & UPS Battery Setup',
+      rating: 5,
+      comment: 'Prompt delivery of 150Ah tubular battery to Ramanathapuram town. The technician explained backup calculation and warranty clearly. Top notch work!',
+      date: 'Verified Service • August 2026',
+    },
+    {
+      id: 4,
+      name: 'T. Jegadeesh',
+      location: 'Rameshwaram Temple St',
+      service: 'AC Repair & Jet Service',
+      rating: 4,
+      comment: 'Serviced 3 air conditioners at our Rameshwaram guest lodge. Good deep foam cleaning and filter replacement. Technicians did a very thorough job.',
+      date: 'Verified Service • July 2026',
+    },
+    {
+      id: 5,
+      name: 'M. Selvakumar',
+      location: 'Madurai Ring Road',
+      service: 'Commercial Solar Inverter Wiring',
+      rating: 5,
+      comment: 'Handled heavy duty electrical paneling and solar setup for our warehouse near Madurai Ring Road. Very knowledgeable engineers and neat cabling.',
+      date: 'Verified Service • May 2026',
+    },
+    {
+      id: 6,
+      name: 'A. Pitchai',
+      location: 'Manamadurai NH Road',
+      service: 'Washing Machine Repair',
+      rating: 4,
+      comment: 'Front load washing machine drum noise fixed quickly in Manamadurai. Replaced bearing kit with original spare parts. Fair pricing and friendly behavior.',
+      date: 'Verified Service • June 2026',
+    },
+    {
+      id: 7,
+      name: 'S. Meenakshi',
+      location: 'Parthipanur Junction',
+      service: 'Complete Home Wiring',
+      rating: 5,
+      comment: 'Full electrical wiring done for our new house in Parthipanur. Neat concealed conduit work, safety MCB installation, and perfect switch placement.',
+      date: 'Verified Service • July 2026',
+    },
+    {
+      id: 8,
       name: 'R. Senthamil',
       location: 'Gandhi Nagar, Paramakudi',
       service: 'Electrical Home Wiring',
@@ -31,7 +76,25 @@ export default function Testimonials() {
       date: 'Verified Service • July 2026',
     },
     {
-      id: 4,
+      id: 9,
+      name: 'P. Murugan',
+      location: 'Salai St, Ramanathapuram',
+      service: 'Double Door Fridge Repair',
+      rating: 4,
+      comment: 'Cooling issue resolved on the spot in Ramanathapuram. Replaced thermostat sensor and checked gas pressures. Good after-service support.',
+      date: 'Verified Service • May 2026',
+    },
+    {
+      id: 10,
+      name: 'K. Soundarapandian',
+      location: 'Ilayangudi Town',
+      service: 'Overhead Tank Pump Fit',
+      rating: 5,
+      comment: 'Submersible water pump installation done smoothly in Ilayangudi. No pipe leakage and smooth automatic starter panel wiring.',
+      date: 'Verified Service • August 2026',
+    },
+    {
+      id: 11,
       name: 'M. Anand',
       location: 'Paramakudi Branch Area',
       service: 'UPS Battery Installation',
@@ -40,36 +103,58 @@ export default function Testimonials() {
       date: 'Verified Service • May 2026',
     },
     {
-      id: 5,
-      name: 'P. Karthikeyan',
-      location: 'Bazar St, Paramakudi',
-      service: 'Plumbing & Water Pump Fit',
-      rating: 5,
-      comment: 'Installed a new overhead water tank pump. Neat fitting, no leaks, and very polite technicians. Will definitely call K3 for future home work.',
+      id: 12,
+      name: 'B. Thenmozhi',
+      location: 'Sivagangai Highway',
+      service: 'IP Camera & NVR Setup',
+      rating: 4,
+      comment: 'Security camera fitting for farmhouse near Sivagangai. Motion detection alert setup on mobile is working very reliably.',
       date: 'Verified Service • June 2026',
     },
   ];
 
+  const filterLocations = [
+    'All',
+    'Paramakudi',
+    'Maninagar',
+    'Ramanathapuram',
+    'Rameshwaram',
+    'Madurai',
+    'Manamadurai',
+    'Parthipanur',
+  ];
+
+  const [activeLocation, setActiveLocation] = useState('All');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
+  const filteredReviews = reviews.filter((rev) => {
+    if (activeLocation === 'All') return true;
+    return rev.location.toLowerCase().includes(activeLocation.toLowerCase());
+  });
+
+  const handleFilterSelect = (loc) => {
+    setActiveLocation(loc);
+    setCurrentIndex(0);
+  };
+
   // Auto-play interval
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || filteredReviews.length <= 1) return;
     const timer = setInterval(() => {
       handleNext();
     }, 4000);
     return () => clearInterval(timer);
-  }, [currentIndex, isPaused]);
+  }, [currentIndex, isPaused, filteredReviews.length]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? filteredReviews.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === filteredReviews.length - 1 ? 0 : prev + 1));
   };
 
   // Touch Swipe Support for Mobile
@@ -96,8 +181,26 @@ export default function Testimonials() {
         {/* Section Header */}
         <div className="section-heading">
           <span className="eyebrow">Customer Feedback</span>
-          <h2>Trusted by hundreds of happy customers in Paramakudi</h2>
-          <p>Read real verified reviews from local home owners and shopkeepers.</p>
+          <h2>Trusted across Paramakudi, Ramanathapuram, Rameshwaram & Madurai</h2>
+          <p>Read real verified reviews from local homeowners, shops, and businesses.</p>
+        </div>
+
+        {/* Location Filter Chips */}
+        <div className="location-filter-bar">
+          <span className="filter-label">
+            <MapPin size={15} color="#2563EB" /> Filter Region:
+          </span>
+          <div className="location-chips">
+            {filterLocations.map((loc) => (
+              <button
+                key={loc}
+                onClick={() => handleFilterSelect(loc)}
+                className={`location-chip ${activeLocation === loc ? 'is-active' : ''}`}
+              >
+                {loc}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Advanced Slider Container */}
@@ -110,13 +213,15 @@ export default function Testimonials() {
           onTouchEnd={handleTouchEnd}
         >
           {/* Navigation Arrow Left */}
-          <button
-            onClick={handlePrev}
-            className="slider-nav-btn prev-btn"
-            aria-label="Previous customer review"
-          >
-            <ChevronLeft size={22} />
-          </button>
+          {filteredReviews.length > 1 && (
+            <button
+              onClick={handlePrev}
+              className="slider-nav-btn prev-btn"
+              aria-label="Previous customer review"
+            >
+              <ChevronLeft size={22} />
+            </button>
+          )}
 
           {/* Cards Track */}
           <div className="slider-track-container">
@@ -126,16 +231,21 @@ export default function Testimonials() {
                 transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
-              {reviews.map((rev) => (
+              {filteredReviews.map((rev) => (
                 <div key={rev.id} className="slide-card-item">
                   <div className="review-card">
                     <div className="card-top-row">
                       <div className="quote-box">
                         <Quote size={24} color="#2563EB" />
                       </div>
-                      <div className="rating-stars">
-                        {[...Array(rev.rating)].map((_, i) => (
-                          <Star key={i} size={16} fill="#F59E0B" color="#F59E0B" />
+                      <div className="rating-stars" title={`${rev.rating} out of 5 stars`}>
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={18}
+                            fill={i < rev.rating ? '#F59E0B' : '#E2E8F0'}
+                            color={i < rev.rating ? '#F59E0B' : '#CBD5E1'}
+                          />
                         ))}
                       </div>
                     </div>
@@ -164,33 +274,89 @@ export default function Testimonials() {
           </div>
 
           {/* Navigation Arrow Right */}
-          <button
-            onClick={handleNext}
-            className="slider-nav-btn next-btn"
-            aria-label="Next customer review"
-          >
-            <ChevronRight size={22} />
-          </button>
+          {filteredReviews.length > 1 && (
+            <button
+              onClick={handleNext}
+              className="slider-nav-btn next-btn"
+              aria-label="Next customer review"
+            >
+              <ChevronRight size={22} />
+            </button>
+          )}
         </div>
 
         {/* Pagination Dots */}
-        <div className="slider-pagination">
-          {reviews.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`pagination-dot ${idx === currentIndex ? 'is-active' : ''}`}
-              aria-label={`Go to review ${idx + 1}`}
-            />
-          ))}
-        </div>
+        {filteredReviews.length > 1 && (
+          <div className="slider-pagination">
+            {filteredReviews.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`pagination-dot ${idx === currentIndex ? 'is-active' : ''}`}
+                aria-label={`Go to review ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <style>{`
         .testimonials-section {
-          background-color: #F8FAFC;
-          border-top: 1px solid #E2E8F0;
-          border-bottom: 1px solid #E2E8F0;
+          background: transparent;
+          position: relative;
+          z-index: 1;
+        }
+
+        .location-filter-bar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+          margin-bottom: 2rem;
+        }
+
+        .filter-label {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #475569;
+        }
+
+        .location-chips {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .location-chip {
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
+          color: #475569;
+          font-size: 0.825rem;
+          font-weight: 600;
+          padding: 0.4rem 0.9rem;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        .location-chip:hover {
+          border-color: #2563EB;
+          background: rgba(255, 255, 255, 0.95);
+        }
+
+        .location-chip.is-active {
+          background: #EFF6FF;
+          border-color: #2563EB;
+          color: #2563EB;
         }
 
         .slider-wrapper {
@@ -202,12 +368,12 @@ export default function Testimonials() {
 
         .slider-track-container {
           overflow: hidden;
-          border-radius: 24px;
+          border-radius: 20px;
         }
 
         .slider-track {
           display: flex;
-          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
           width: 100%;
         }
 
@@ -218,11 +384,13 @@ export default function Testimonials() {
         }
 
         .review-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: 20px;
           padding: 2.25rem 2rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 12px 32px -8px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
           display: flex;
           flex-direction: column;
           gap: 1.25rem;

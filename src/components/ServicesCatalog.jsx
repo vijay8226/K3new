@@ -168,7 +168,9 @@ export default function ServicesCatalog({ onSelectService }) {
 
       <style>{`
         .services-section {
-          background-color: #FFFFFF;
+          background: transparent;
+          position: relative;
+          z-index: 1;
         }
 
         .category-row {
@@ -186,26 +188,30 @@ export default function ServicesCatalog({ onSelectService }) {
           gap: 0.4rem;
           padding: 0.55rem 1.15rem;
           border-radius: var(--radius-full);
-          background: #F1F5F9;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.75);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           color: #475569;
           font-family: var(--font-primary);
           font-weight: 600;
           font-size: 0.875rem;
           cursor: pointer;
           transition: all 0.2s ease;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
         .cat-btn:hover {
           color: #0F172A;
           border-color: #CBD5E1;
+          background: rgba(255, 255, 255, 0.95);
         }
 
         .cat-btn.is-active {
           background: #2563EB;
           color: #FFFFFF;
           border-color: #2563EB;
-          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+          box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
         }
 
         .cards-grid {
@@ -215,20 +221,22 @@ export default function ServicesCatalog({ onSelectService }) {
         }
 
         .service-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0 8px 25px -5px rgba(15, 23, 42, 0.05), 0 4px 10px rgba(0,0,0,0.02);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
           display: flex;
           flex-direction: column;
         }
 
         .service-card:hover {
           transform: translateY(-6px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-          border-color: #2563EB;
+          box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15), 0 8px 16px rgba(0, 0, 0, 0.04);
+          border-color: rgba(37, 99, 235, 0.4);
         }
 
         .card-img-wrapper {

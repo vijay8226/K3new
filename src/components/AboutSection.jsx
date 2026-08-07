@@ -41,17 +41,21 @@ export default function AboutSection() {
 
       <style>{`
         .about-section {
-          background-color: #F8FAFC;
+          background: transparent;
+          position: relative;
+          z-index: 1;
         }
 
         .about-main-card {
           max-width: 900px;
           margin: 0 auto;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: var(--radius-lg);
           padding: 3rem 2.5rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+          box-shadow: 0 15px 35px -10px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
           text-align: center;
         }
 
@@ -81,8 +85,8 @@ export default function AboutSection() {
           align-items: center;
           gap: 0.75rem;
           padding: 0.75rem 1.4rem;
-          background: #F1F5F9;
-          border: 1px solid #E2E8F0;
+          background: rgba(241, 245, 249, 0.8);
+          border: 1px solid rgba(226, 232, 240, 0.9);
           border-radius: var(--radius-full);
           font-family: var(--font-primary);
           font-weight: 600;

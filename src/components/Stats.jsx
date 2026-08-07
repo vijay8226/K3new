@@ -48,9 +48,10 @@ export default function Stats() {
 
       <style>{`
         .stats-section {
-          background-color: #FFFFFF;
-          padding: 2rem 1.5rem;
-          border-bottom: 1px solid #E2E8F0;
+          background: transparent;
+          padding: 2.5rem 1.5rem;
+          position: relative;
+          z-index: 1;
         }
 
         .stats-container {
@@ -61,12 +62,14 @@ export default function Stats() {
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 20px;
-          padding: 1.5rem 2rem;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(226, 232, 240, 0.9);
+          border-radius: 24px;
+          padding: 1.75rem 2rem;
           gap: 1.5rem;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .stat-card {
