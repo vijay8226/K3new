@@ -17,6 +17,7 @@ export default function Header({ onOpenBooking }) {
     { label: 'Home', href: '#home' },
     { label: 'About Us', href: '#about' },
     { label: 'Services', href: '#services' },
+    { label: 'Reviews', href: '#testimonials' },
     { label: 'Branch', href: '#branch' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -214,6 +215,9 @@ export default function Header({ onOpenBooking }) {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+          max-height: calc(100dvh - 75px);
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 

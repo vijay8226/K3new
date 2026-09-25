@@ -38,6 +38,26 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
     }
   }, [selectedService]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Prevent body background scroll on mobile and desktop
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handleGetLocation = () => {
@@ -89,8 +109,13 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal-container">
+    <div
+      className="modal-backdrop"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="modal-container" role="dialog" aria-modal="true">
         <div className="modal-header">
           <div className="modal-title-group">
             <div className="modal-icon">
@@ -102,7 +127,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
             </div>
           </div>
           <button onClick={onClose} className="modal-close-btn" aria-label="Close modal">
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
@@ -238,7 +263,7 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
               placeholder="Describe the issue (e.g. AC not cooling, need 4 CCTV cameras setup...)"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="form-control"
+              className="form-control textarea-control"
             />
           </div>
 
@@ -258,34 +283,44 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
         .modal-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 999;
-          background: rgba(15, 23, 42, 0.65);
-          backdrop-filter: blur(6px);
+          z-index: 2000;
+          background: rgba(15, 23, 42, 0.7);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 1rem;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
           animation: fadeIn 0.25s ease;
         }
 
         .modal-container {
           width: 100%;
           max-width: 540px;
-          border-radius: 24px;
-          border: 1px solid #E2E8F0;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
-          overflow: hidden;
+          max-height: calc(100vh - 2rem);
+          max-height: calc(100dvh - 2rem);
+          border-radius: 20px;
+          border: 1px solid rgba(226, 232, 240, 0.9);
+          box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
           background: #FFFFFF;
           color: #0F172A;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          overflow: hidden;
+          margin: auto;
         }
 
         .modal-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 1.25rem 1.5rem;
+          padding: 1.15rem 1.4rem;
           border-bottom: 1px solid #F1F5F9;
           background: #F8FAFC;
+          flex-shrink: 0;
         }
 
         .modal-title-group {
@@ -302,18 +337,20 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
         }
 
         .modal-title {
           font-size: 1.15rem;
-          line-height: 1.2;
+          line-height: 1.25;
           color: #0F172A;
           font-weight: 700;
         }
 
         .modal-subtitle {
-          font-size: 0.8rem;
+          font-size: 0.775rem;
           color: #64748B;
+          margin-top: 2px;
         }
 
         .modal-close-btn {
@@ -321,11 +358,13 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           border: 1px solid #E2E8F0;
           color: #64748B;
           cursor: pointer;
-          padding: 0.4rem;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
           transition: all 0.2s ease;
         }
 
@@ -335,16 +374,35 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
         }
 
         .modal-body {
-          padding: 1.5rem;
+          padding: 1.35rem 1.4rem;
           display: flex;
           flex-direction: column;
           gap: 1.1rem;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+          flex: 1 1 auto;
+        }
+
+        /* Sleek scrollbar for the modal body */
+        .modal-body::-webkit-scrollbar {
+          width: 6px;
+        }
+        .modal-body::-webkit-scrollbar-track {
+          background: #F8FAFC;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+          background: #CBD5E1;
+          border-radius: 9999px;
+        }
+        .modal-body::-webkit-scrollbar-thumb:hover {
+          background: #94A3B8;
         }
 
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
+          gap: 0.85rem;
         }
 
         .form-group {
@@ -357,15 +415,17 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 0.35rem;
         }
 
         .btn-location {
           background: #EFF6FF;
           border: 1px solid #BFDBFE;
           color: #2563EB;
-          font-size: 0.775rem;
+          font-size: 0.75rem;
           font-weight: 600;
-          padding: 0.25rem 0.65rem;
+          padding: 0.22rem 0.6rem;
           border-radius: 9999px;
           cursor: pointer;
           display: flex;
@@ -398,21 +458,21 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           font-size: 0.775rem;
           color: #2563EB;
           font-weight: 500;
-          margin-top: 0.2rem;
+          margin-top: 0.15rem;
         }
 
         .form-label {
           display: flex;
           align-items: center;
           gap: 0.4rem;
-          font-size: 0.875rem;
+          font-size: 0.85rem;
           font-weight: 600;
           color: #1E293B;
         }
 
         .form-control {
           width: 100%;
-          padding: 0.7rem 0.95rem;
+          padding: 0.65rem 0.85rem;
           background: #FFFFFF;
           border: 1px solid #CBD5E1;
           border-radius: 12px;
@@ -437,9 +497,21 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           color: #0F172A;
         }
 
+        .textarea-control {
+          resize: vertical;
+          min-height: 56px;
+        }
+
+        .modal-footer {
+          margin-top: 0.35rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+        }
+
         .btn-lg {
-          padding: 0.95rem;
-          font-size: 1rem;
+          padding: 0.85rem 1.25rem;
+          font-size: 0.975rem;
         }
 
         .modal-privacy-note {
@@ -447,23 +519,58 @@ export default function BookingModal({ isOpen, onClose, selectedService }) {
           align-items: center;
           justify-content: center;
           gap: 0.4rem;
-          font-size: 0.8rem;
+          font-size: 0.775rem;
           color: #64748B;
-          margin-top: 0.75rem;
           text-align: center;
         }
 
         @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.96); }
+          from { opacity: 0; transform: scale(0.97); }
           to { opacity: 1; transform: scale(1); }
         }
 
-        @media (max-width: 540px) {
+        @media (max-width: 580px) {
+          .modal-backdrop {
+            padding: 0.5rem;
+            align-items: center;
+          }
+
+          .modal-container {
+            max-height: calc(100vh - 1rem);
+            max-height: calc(100dvh - 1rem);
+            border-radius: 16px;
+          }
+
+          .modal-header {
+            padding: 0.9rem 1rem;
+          }
+
+          .modal-title {
+            font-size: 1.05rem;
+          }
+
+          .modal-icon {
+            width: 34px;
+            height: 34px;
+          }
+
+          .modal-body {
+            padding: 1rem;
+            gap: 0.85rem;
+          }
+
           .form-row {
             grid-template-columns: 1fr;
+            gap: 0.85rem;
+          }
+
+          .form-control {
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
           }
         }
       `}</style>
     </div>
   );
 }
+
